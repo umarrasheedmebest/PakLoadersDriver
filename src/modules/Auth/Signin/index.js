@@ -9,7 +9,8 @@ import {
     TextInput,
 
 } from 'react-native';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { signinRequest } from '../../../Redux/slices/AuthSlice';
 const { width, height } = Dimensions.get('window');
 import Icon from 'react-native-vector-icons/Ionicons';
 import { ScrollView } from "react-native-gesture-handler";
@@ -18,11 +19,22 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const SigninComponent = ({ navigation, }) => {
+    const dispatch=useDispatch();
 
     const [showPassword, setShowPassword] = React.useState(false);
     const [visiblePassword, setVisiblePassword] = React.useState(true);
     const [modalVisible, setModalVisible] = useState(true)
-
+    const [number, setNumber] = useState('')
+    const LoginFun = (item) => {
+        console.log(item)
+        const number={"number":item}
+        dispatch(
+            signinRequest(number)
+        );
+        navigation.navigate('Verify')
+       
+       
+    }
     return (
         <React.Fragment>
             {/* background white */}
@@ -48,15 +60,17 @@ const SigninComponent = ({ navigation, }) => {
                                 }}> Mobile Number</Text>
                                 <View style={{ borderWidth: 1, borderColor: 'black', borderRadius: 5, paddingHorizontal: 5, }}>
                                     <TextInput placeholder='+9230012345678' style={{ padding: 15 }}
-                                        maxLength={30}
+                                        maxLength={15}
                                         keyboardType='email-address'
+                                        value={number}
+                                        onChangeText={(text)=>setNumber(text)}
                                     />
                                 </View>
                             </View>
 
 
                             {/*  Password */}
-                            <View style={{ paddingTop: 10, marginTop: 10 }}>
+                            {/* <View style={{ paddingTop: 10, marginTop: 10 }}>
                                 <Text style={{
                                     position: 'absolute', left: 15, zIndex: 1, backgroundColor: 'white',
                                 }}> Password</Text>
@@ -85,19 +99,19 @@ const SigninComponent = ({ navigation, }) => {
                                         </View>
                                     </TouchableOpacity>
                                 </View>
-                            </View>
+                            </View> */}
 
 
 
 
                             {/* forget password */}
-                            <TouchableOpacity style={{ marginTop: 5, alignSelf: "flex-end", }}
+                            {/* <TouchableOpacity style={{ marginTop: 5, alignSelf: "flex-end", }}
                                 onPress={() => navigation.navigate('Forgot_Password')}>
                                 <Text style={{ color: '#4448FF', }}>Forgot Password?</Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
 
                             {/* Sign in Button */}
-                            <TouchableOpacity style={{ alignSelf: "center", marginTop: 25 }}
+                            <TouchableOpacity onPress={()=>LoginFun(number)} style={{ alignSelf: "center", marginTop: 25 }}
                             >
                                 <Text style={{
                                     fontSize: 14, paddingVertical: 10, paddingHorizontal: 40,

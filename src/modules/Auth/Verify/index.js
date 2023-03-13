@@ -14,13 +14,63 @@ import {
     // keyboard
 } from 'react-native';
 import { Dimensions } from "react-native";
+import OTPInputView from '@twotalltotems/react-native-otp-input'
 const { height, width } = Dimensions.get('window');
-
-
+import { useSelector,useDispatch } from 'react-redux';
+import { colors } from '../../../globalStyle';
 
 
 const verifycomponent = ({ navigation }) => {
-
+    const otpMessage=useSelector((state)=>state.auth.signUpResponse.message)
+    
+    const signUnRequest=useSelector((state)=>state.auth.signUpRequest)
+     // Sign Data
+     const UserNumber=useSelector((state)=>state.auth.signInResponse.data)
+     const secret=useSelector((state)=>state.auth.signInResponse.secret)
+     const token=useSelector((state)=>state.auth.signInResponse.token)
+     // SignupData
+     const signupUserNumber=useSelector((state)=>state.auth.signUpResponse.data)
+     const signupsecret=useSelector((state)=>state.auth.signUpResponse.secret)
+     const signuptoken=useSelector((state)=>state.auth.signUpResponse.token)
+     const signupfullName=useSelector((state)=>state.auth.signUpResponse.full_name)
+ console.log(signupfullName)
+ const dispatch=useDispatch();
+     console.log('Pakistan Zindabad')
+     const navigateVerified=(item)=>{
+        console.log(item)
+       if(signupUserNumber==UserNumber){
+        if (signuptoken==item) {
+            dispatch(signinOtpVerifyRequest({
+               "number":signupUserNumber,
+               
+               "full_name":signupfullName,
+               "token":signuptoken,
+               "secret":signupsecret ,
+               
+            }));
+            navigation.navigate("Verified")
+           } else {
+            console.log("Signup Token does not match")
+           }
+       }
+    else{
+        if (token==item) {
+        dispatch(signinOtpVerifyRequest({
+           "number":UserNumber,
+           "secret":secret ,
+           "token":token
+        }));
+        navigation.navigate("Verified")
+       } else {
+        console.log("Login Token does not match")
+       }
+      
+       
+        
+    }
+        
+    }
+    const [otp, setOtp] = useState('')
     return (
         <React.Fragment>
             {/* background white */}
@@ -38,10 +88,13 @@ const verifycomponent = ({ navigation }) => {
                             {/* sign in image "locker" */}
                             <Image source={require('../../../assets/verify.png',)} style={{ height: 125, width: 125, alignSelf: "center" }} />
                             {/* Account Verification */}
-                            <Text style={{ fontSize: 25, paddingVertical: 30, color: '#4448ff', textAlign: 'center', fontWeight: 'bold' }}>
+                            <Text style={{ fontSize: 25, paddingVertical: 20, color: '#4448ff', textAlign: 'center', fontWeight: 'bold' }}>
                                 Account Verification
                             </Text>
-
+                            {/* OTp Message */}
+                            <Text style={{ fontSize: 15, color:colors.text, textAlign: 'center',  }}>
+                               Please {otpMessage}
+                            </Text>
                             {/* Varification Code digits */}
                             <View style={{
                                 marginTop: 20, flexDirection: 'row',
@@ -49,76 +102,21 @@ const verifycomponent = ({ navigation }) => {
 
                             }}>
 
-                                <TextInput maxLength={1}
-                                    style={{
-                                        width: 30,
-                                        height: 60,
-                                        borderBottomWidth: 1,
-                                        borderBottomColor: '#5a5a5a',
-                                        marginRight: 20,
-                                        alignContent: 'center',
-                                        textAlign: 'center',
-                                        fontSize: 35
-                                    }} />
-
-                                <TextInput maxLength={1}
-                                    style={{
-                                        width: 30,
-                                        height: 60,
-                                        fontSize: 35,
-                                        borderBottomWidth: 1,
-                                        borderBottomColor: '#5a5a5a',
-                                        marginRight: 20,
-                                        alignContent: 'center',
-                                        textAlign: 'center',
-                                    }} />
-
-                                <TextInput maxLength={1}
-                                    style={{
-                                        width: 30,
-                                        height: 60,
-                                        borderBottomWidth: 1,
-                                        borderBottomColor: '#5a5a5a',
-                                        marginRight: 20,
-                                        alignContent: 'center',
-                                        textAlign: 'center',
-                                        fontSize: 35
-                                    }} />
-
-                                <TextInput maxLength={1}
-                                    style={{
-                                        width: 30,
-                                        height: 60,
-                                        borderBottomWidth: 1,
-                                        borderBottomColor: '#5a5a5a',
-                                        marginRight: 20,
-                                        alignContent: 'center',
-                                        textAlign: 'center',
-                                        fontSize: 35
-                                    }} />
-
-                                <TextInput maxLength={1}
-                                    style={{
-                                        width: 30,
-                                        height: 60,
-                                        borderBottomWidth: 1,
-                                        borderBottomColor: '#5a5a5a',
-                                        marginRight: 20,
-                                        alignContent: 'center',
-                                        textAlign: 'center',
-                                        fontSize: 35
-                                    }} />
-
-                                <TextInput maxLength={1}
-                                    style={{
-                                        width: 30,
-                                        height: 60,
-                                        borderBottomWidth: 1,
-                                        borderBottomColor: '#5a5a5a',
-                                        alignContent: 'center',
-                                        textAlign: 'center',
-                                        fontSize: 35
-                                    }} />
+<OTPInputView
+    style={{width: '100%', height: 40,backgroundColor:"#ffffff",shadowColor:"#fff",marginTop:30,
+}}
+    pinCount={6}
+    code={otp} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
+    onCodeChanged = {code => { setOtp(code)}}
+    autoFocusOnLoad
+    
+    codeInputFieldStyle={styles.underlineStyleBase}
+    codeInputHighlightStyle={styles.underlineStyleHighLighted}
+    onCodeFilled = {(code => {
+        setToken(code)
+        console.log(`Code is ${code}, you are good to go!`)
+    })}
+     />                 
                             </View>
 
                             {/* code send again button and text  */}
@@ -130,7 +128,7 @@ const verifycomponent = ({ navigation }) => {
                             </View>
 
                             {/* Sign Up Button */}
-                            <TouchableOpacity style={{ alignSelf: "center", marginTop: 50 }} onPress={() => navigation.navigate('Verified')}>
+                            <TouchableOpacity style={{ alignSelf: "center", marginTop: 50 }} onPress={() => navigateVerified(code)}>
                                 <Text style={{
                                     fontSize: 14, paddingVertical: 10, paddingHorizontal: 40,
                                     color: 'white', borderWidth: 1, borderColor: '#4448FF', backgroundColor: '#4448FF',
@@ -145,4 +143,51 @@ const verifycomponent = ({ navigation }) => {
     );
 };
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        position:"relative",
+        alignItems:"center",
+        justifyContent:"center"
+    },
+    mainContainer:{
+        width:329,
+        height:586,
+        padding:20,
+        borderRadius:11,
+        
+        backgroundColor:"white",
+        position:"relative",
+        alignItems:"center",
+       
+        shadowColor:"#4448FF",
+       
+        elevation:10,
+        
+      },
+      borderStyleBase: {
+        width: 30,
+        height: 45,
+       
+      },
+    
+      borderStyleHighLighted: {
+        borderColor: colors.text,
+      },
+    
+      underlineStyleBase: {
+        width: 40,
+        height: 55,
+        borderWidth: 0,
+        borderBottomWidth: 1,
+       color:colors.text,
+       fontSize:32,
+       fontWeight:'500',
+      },
+    
+      underlineStyleHighLighted: {
+        borderColor: "#03DAC6",
+      },
+});
 export default verifycomponent;
