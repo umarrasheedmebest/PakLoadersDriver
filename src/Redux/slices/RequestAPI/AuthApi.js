@@ -29,10 +29,10 @@ export function requestSignupOtpVerify(options) {
 // Sign In API Request
 export function requestSignInUser(options) {
   console.log(options);
-
+  console.log(BASE_URL);
   const res = axios.request({
     method: 'post',
-    url: `${BASE_URL}auth/sign-in`,
+    url: `${BASE_URL}auth/login`,
     data: options,
     headers: {
       'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ export function requestSigninOtpVerify(options) {
   console.log(options);
   const res = axios.request({
     method: 'post',
-    url: `${BASE_URL}auth/verify-otp`,
+    url: `${BASE_URL}auth/login-verify`,
     data: options,
     headers: {
       'Content-Type': 'application/json',

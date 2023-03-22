@@ -18,47 +18,48 @@ import OTPInputView from '@twotalltotems/react-native-otp-input'
 const { height, width } = Dimensions.get('window');
 import { useSelector,useDispatch } from 'react-redux';
 import { colors } from '../../../globalStyle';
-
+import {signinOtpVerifyRequest,signupVarifyRequest} from '../../../Redux/slices/AuthSlice';
 
 const verifycomponent = ({ navigation }) => {
-    const otpMessage=useSelector((state)=>state.auth.signUpResponse.message)
-    
+    const otpMessage=useSelector((state)=>state.auth.signInResponse.message)
+    console.log(otpMessage)
     const signUnRequest=useSelector((state)=>state.auth.signUpRequest)
      // Sign Data
      const UserNumber=useSelector((state)=>state.auth.signInResponse.data)
      const secret=useSelector((state)=>state.auth.signInResponse.secret)
-     const token=useSelector((state)=>state.auth.signInResponse.token)
+    //  const token=useSelector((state)=>state.auth.signInResponse.token)
      // SignupData
      const signupUserNumber=useSelector((state)=>state.auth.signUpResponse.data)
      const signupsecret=useSelector((state)=>state.auth.signUpResponse.secret)
      const signuptoken=useSelector((state)=>state.auth.signUpResponse.token)
      const signupfullName=useSelector((state)=>state.auth.signUpResponse.full_name)
- console.log(signupfullName)
+
  const dispatch=useDispatch();
      console.log('Pakistan Zindabad')
      const navigateVerified=(item)=>{
         console.log(item)
-       if(signupUserNumber==UserNumber){
-        if (signuptoken==item) {
-            dispatch(signinOtpVerifyRequest({
-               "number":signupUserNumber,
+    //    if(signupUserNumber==UserNumber){
+    //     if (signuptoken==item) {
+    //         dispatch(signupVarifyRequest({
+    //            "number":signupUserNumber,
                
-               "full_name":signupfullName,
-               "token":signuptoken,
-               "secret":signupsecret ,
+    //            "full_name":signupfullName,
+    //            "token":signuptoken,
+    //            "secret":signupsecret ,
                
-            }));
-            navigation.navigate("Verified")
-           } else {
-            console.log("Signup Token does not match")
-           }
-       }
-    else{
+    //         }));
+    //         navigation.navigate("Verified")
+    //        } else {
+    //         console.log("Signup Token does not match")
+    //        }
+    //    }
+    // else{
         if (token==item) {
         dispatch(signinOtpVerifyRequest({
            "number":UserNumber,
            "secret":secret ,
-           "token":token
+           "token":token,
+           "deviceToken":"cWwm4OszSyeXdJKEYQimHz:APA91bF3Ek0AmhQNpahcwyRCiElE3llNLrQDIChR1pW0hnslgNkk8zva1nNazs0_TcggC4SNTAncBViGfO_D1ARLkNr2qAITshWl5zGujwStk4i2ibhw-JNN1UmrUGqoTB86uNHRDDQm"
         }));
         navigation.navigate("Verified")
        } else {
@@ -67,9 +68,10 @@ const verifycomponent = ({ navigation }) => {
       
        
         
-    }
+    // }
         
     }
+    const [token, setToken] = useState('')
     const [otp, setOtp] = useState('')
     return (
         <React.Fragment>
@@ -93,7 +95,7 @@ const verifycomponent = ({ navigation }) => {
                             </Text>
                             {/* OTp Message */}
                             <Text style={{ fontSize: 15, color:colors.text, textAlign: 'center',  }}>
-                               Please {otpMessage}
+                              Please  {otpMessage}
                             </Text>
                             {/* Varification Code digits */}
                             <View style={{
@@ -102,21 +104,22 @@ const verifycomponent = ({ navigation }) => {
 
                             }}>
 
-<OTPInputView
-    style={{width: '100%', height: 40,backgroundColor:"#ffffff",shadowColor:"#fff",marginTop:30,
-}}
-    pinCount={6}
-    code={otp} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
-    onCodeChanged = {code => { setOtp(code)}}
-    autoFocusOnLoad
-    
-    codeInputFieldStyle={styles.underlineStyleBase}
-    codeInputHighlightStyle={styles.underlineStyleHighLighted}
-    onCodeFilled = {(code => {
-        setToken(code)
-        console.log(`Code is ${code}, you are good to go!`)
-    })}
-     />                 
+ 
+      <OTPInputView
+            style={{width: '100%', height: 40,backgroundColor:"#ffffff",shadowColor:"#fff",marginTop:30,}}
+            pinCount={6}
+            code={otp} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
+            onCodeChanged={code => {
+              setOtp(code);
+            }}
+            autoFocusOnLoad
+            codeInputFieldStyle={styles.underlineStyleBase}
+            codeInputHighlightStyle={styles.underlineStyleHighLighted}
+            onCodeFilled={code => {
+              setToken(code);
+              console.log(`Code is ${token}, you are good to go!`);
+            }}
+          />                
                             </View>
 
                             {/* code send again button and text  */}
@@ -128,7 +131,7 @@ const verifycomponent = ({ navigation }) => {
                             </View>
 
                             {/* Sign Up Button */}
-                            <TouchableOpacity style={{ alignSelf: "center", marginTop: 50 }} onPress={() => navigateVerified(code)}>
+                            <TouchableOpacity style={{ alignSelf: "center", marginTop: 50 }} onPress={() => navigateVerified(token)}>
                                 <Text style={{
                                     fontSize: 14, paddingVertical: 10, paddingHorizontal: 40,
                                     color: 'white', borderWidth: 1, borderColor: '#4448FF', backgroundColor: '#4448FF',

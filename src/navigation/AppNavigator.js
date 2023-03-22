@@ -5,7 +5,7 @@ import { MainNavigator } from './MainNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../../AuthProvider';
 import { ActivityIndicator, SafeAreaView } from 'react-native';
-
+import { requestUserPermission,notificationListener } from '../modules/Components/NotificationService/NotificationService';
 import NavigationToScreens from './AuthNavigator';
 
 const AppNavigator = () => {
@@ -14,6 +14,8 @@ const AppNavigator = () => {
 
     useEffect(() => {
         getData();
+        requestUserPermission()
+        notificationListener()
     }, []);
 
     const getData = async () => {
