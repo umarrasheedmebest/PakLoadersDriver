@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Dimensions, View, Text, Image, style, StyleSheet, TouchableOpacity, ScrollView, TextInput, Modal } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { Button, RadioButton } from 'react-native-paper';
@@ -6,13 +6,20 @@ import { Button, RadioButton } from 'react-native-paper';
 const { height, width } = Dimensions.get('window');
 //screens
 import CardDesign_bids from './Screens/CardDesign_bids';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { getAllPostRequest } from '../../../../../Redux/slices/PostSlice';
 
 export default function RideScreen() {
+    const dispactch=useDispatch();
     const navigation = useNavigation();
-
+    const useTokenSuc=useSelector((state)=>state.auth.signInOtpVarifyResponse.accessToken)
     const [modalVisible, setModalVisible] = useState(false);
     const [checked, setChecked] = React.useState('first');
-
+    useEffect(() => {
+      dispactch(getAllPostRequest())
+    }, [])
+    
     return (
         // background White and Round 
         <View style={{ backgroundColor: '#4448FF', flex: 1, }}>
@@ -38,15 +45,15 @@ export default function RideScreen() {
                                 style={{ marginHorizontal: 15 }} />
                         </TouchableOpacity>
                     </View>
-
+                    
 
                     <ScrollView>
                         {/* New Bid Text */}
                         <View>
-                            <Text style={{ marginBottom: 5, color: '#4448FF', fontSize: 16 }}>New Bids</Text>
+                            <Text style={{ marginBottom: 5, color: '#4448FF', fontSize: 16 }}>New Post</Text>
                         </View>
 
-                        <CardDesign_bids
+                        {/* <CardDesign_bids
                             profile_pic={require('../../Images/profile_Pic_1.png')}
                             person_name={'Muhammads wasesem'}
                             rating={'3.8'}
@@ -77,7 +84,7 @@ export default function RideScreen() {
                             pick_up_loc={'Clark Pharmacy, 442 Rawalpindi'}
                             drop_off_loc={'Clark Pharmacy, 442 Islamabad'}
                             date_of_pick_up={'12-02-2022, Monday'}
-                        />
+                        /> */}
                     </ScrollView>
 
 

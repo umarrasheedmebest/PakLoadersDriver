@@ -34,7 +34,7 @@ export const requestGetPost=async()=> {
   console.log("User Id",id);
   const res = axios.request({
     method: 'get',
-    url: `${BASE_URL}post/get-all/${id}`,
+    url: `${BASE_URL}bids/get`,
     headers: {
       'Content-Type': 'application/json',
       'Authorization':userinfoToken

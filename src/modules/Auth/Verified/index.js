@@ -16,7 +16,7 @@ import {
 import { Dimensions } from "react-native";
 const { height, width } = Dimensions.get('window');
 
-const VerifiedComponent = ({ navigation }) => {
+const VerifiedComponent = ({ navigation, navigateToHome, }) => {
     return (
         <React.Fragment>
             {/* background white */}
@@ -43,7 +43,7 @@ const VerifiedComponent = ({ navigation }) => {
                             <Text style={{ fontSize: 18, textAlign: "center" }}>You have successfully verified the account</Text>
 
                             {/* OkButton */}
-                            <TouchableOpacity style={{ alignSelf: "center", marginTop: 50 }} onPress={() => navigation.navigate('Info')}>
+                            <TouchableOpacity style={{ alignSelf: "center", marginTop: 50 }} onPress={() => navigateToHome()}>
                                 <Text style={{
                                     fontSize: 14, paddingVertical: 10, paddingHorizontal: 40,
                                     color: 'white', borderWidth: 1, borderColor: '#4448FF', backgroundColor: '#4448FF',

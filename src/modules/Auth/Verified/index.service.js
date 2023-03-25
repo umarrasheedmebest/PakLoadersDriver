@@ -1,27 +1,28 @@
-import { useEffect, useState } from "react";
-
+import { useEffect, useState,useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {AuthContext} from "../../../../AuthProvider";
 const VerifiedServiceComponent = ({
     children,
     navigation,
 }) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [carouselItems, setCarouselItems] = useState([]);
-
-    useEffect(() => {
-        setCarouselItems([
-            {
-                title: 'Login as Owner',
-
-            },
-            {
-                title: 'Login as Driver',
-            },
-
-        ]);
-    }, [])
+    const userInfo=useSelector((state)=>state.auth.signInOtpVarifyResponse)
+  const userTokenSuc=useSelector((state)=>state.auth.signInOtpVarifyResponse.accessToken)
+  console.log('OTP Data')
+  console.log(userInfo)
+  console.log(userTokenSuc)
+  const {login}=useContext(AuthContext);
+  console.log('Pakistan Zindabad')
+    
 
     const navigateToHome= ()=> {
-        navigation.navigate('Info');
+        
+        login({
+            userInfo,
+            userTokenSuc
+           });
+           navigation.navigate('Info')
 
     }
 

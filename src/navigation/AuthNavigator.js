@@ -43,7 +43,7 @@ function getHeaderTitle(route) {
     const routeName = getFocusedRouteNameFromRoute(route) ?? 'RatingScreen';
     switch (routeName) {
         case 'Ride':
-            return 'Ride Requests';
+            return 'Home';
         case 'Earning':
             return 'My Earnings';
         case 'Ratings':
