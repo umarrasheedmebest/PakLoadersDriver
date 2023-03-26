@@ -54,9 +54,9 @@ function getHeaderTitle(route) {
 
 // Navigation to Screens
 
-export default function NavigationToScreens({ navigation }) {
+export function Auth({ navigation }) {
     return (
-        <React.Fragment>
+        
             <Stack.Navigator screenOptions={{
                 headerStyle: {
                     backgroundColor: '#4448FF',
@@ -86,29 +86,8 @@ export default function NavigationToScreens({ navigation }) {
                         headerShown: false,
                     }} />
 
-                {/* bottom tabs nav */}
-                <Stack.Screen
-                    name='Ride Request' component={MainContainer}
-                    options={({ route }) => ({
-                        headerTitle: getHeaderTitle(route),
-                        headerLeft: () => (
-                            <View style={{ marginLeft: 5, }}>
-                                <TouchableOpacity style={{ padding: 10, marginTop: 5, borderWidth: 2, borderRadius: 60, borderColor: 'white' }}
-                                    onPress={() => navigation.openDrawer()}>
-                                    <Image source={require('../assets/MenuButtonIcon1.png')}
-                                        style={{ height: 15, width: 15, borderColor: 'white' }} />
-                                </TouchableOpacity>
-                            </View>
-                        ),
-                        headerRight: () => (
-                            <View style={{ marginRight: 5, }} >
-                                <TouchableOpacity style={{ marginTop: 5 }} onPress={() => navigation.navigate('Notification')}>
-                                    <Image source={require('../modules/Auth/BottomNavigation/Images/NotificationBell.png')}
-                                        style={{ height: 24, width: 24 }} />
-                                </TouchableOpacity>
-                            </View>
-                        ),
-                    })} />
+               
+                
 
                 {/* Login */}
                 {/* <Stack.Screen name="Login" component={Login}
@@ -210,7 +189,7 @@ export default function NavigationToScreens({ navigation }) {
                         headerShown: false
                     }} />
             </Stack.Navigator>
-        </React.Fragment>
+       
     )
 
 }

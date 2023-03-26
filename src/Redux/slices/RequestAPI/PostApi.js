@@ -49,7 +49,7 @@ export const requestSinglePost=async(post_id)=> {
 
   const res = axios.request({
     method: 'get',
-    url: `${BASE_URL}post/get/single-post/${post_id}`,
+    url: `${BASE_URL}bids/details/${post_id}`,
     headers: {
       'Content-Type': 'application/json',
       'Authorization':userinfoToken

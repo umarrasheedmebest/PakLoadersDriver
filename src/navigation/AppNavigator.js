@@ -9,37 +9,27 @@ import { requestUserPermission,notificationListener } from '../modules/Component
 import NavigationToScreens from './AuthNavigator';
 
 const AppNavigator = () => {
-    const { user, login } = useContext(AuthContext);
+    const { userToken, login,isLoading,setisLoading } = useContext(AuthContext);
+    console.log("userToken"+userToken)
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getData();
+       
         requestUserPermission()
         notificationListener()
     }, []);
 
-    const getData = async () => {
-        try {
-            const retrievedItem = await AsyncStorage.getItem('@user');
-            const user = JSON.parse(retrievedItem);
-            if (user !== null) {
-                login(user);
-            }
-            setLoading(false);
-            // SplashScreen.hide();
-        } catch (e) {
-            console.log('error getting stored data');
-        }
-    };
+    
 
-    if (loading) {
+    if (isLoading) {
         return <ActivityIndicator />;
     }
 
     return (
         <NavigationContainer>
-        <MainNavigator/>
-            {/* {user ? <MainNavigator /> : <Auth />} */}
+            {/* <Auth/> */}
+        {/* <MainNavigator/> */}
+            {userToken !==null ? <MainNavigator /> : <Auth />}
 
         {/* <NavigationToScreens /> */}
 

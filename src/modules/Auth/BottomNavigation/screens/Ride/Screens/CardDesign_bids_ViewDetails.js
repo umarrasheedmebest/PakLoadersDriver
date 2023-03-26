@@ -2,9 +2,9 @@ import * as React from "react";
 import { Text, View, Image, style, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 
 import { Dimensions } from "react-native";
+import { useSelector } from "react-redux";
 const { width } = Dimensions.get('window');
 const height = width * 0.7;
-
 
 
 const images = [
@@ -31,7 +31,9 @@ export default class CardDesign_bids_ViewDetails extends React.Component {
         }
     }
     render() {
-
+        const PostSingleData = useSelector(state => state.post.singlePostResponse);
+console.log("Single Post")
+console.log(PostSingleData)
         return (
                 // background white and corner
             <View style={{ backgroundColor: '#4448FF', flex: 1, }}>

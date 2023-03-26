@@ -15,7 +15,7 @@ const Tab = createBottomTabNavigator();
 export default function MainContainer() {
   return (
     <Tab.Navigator
-
+    initialRouteName="EarningScreen"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,

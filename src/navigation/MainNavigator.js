@@ -2,7 +2,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Image, Text, ImageBackground, View, TouchableOpacity, Navigator, navigation, Fragment } from 'react-native';
 import { createDrawerNavigator, DrawerView } from '@react-navigation/drawer';
-import { useNavigation } from '@react-navigation/native';
+import { getFocusedRouteNameFromRoute, useNavigation } from '@react-navigation/native';
 import { Dimensions } from "react-native";
 const { height, width } = Dimensions.get('window');
 //Drawer screens
@@ -39,7 +39,9 @@ import Pcredit from '../modules/Auth/Pcredit';
 import Easypay from '../modules/Auth/Easypay';
 import Bank from '../modules/Auth/Bank';
 import { white } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
-
+import MainContainer from '../modules/Auth/BottomNavigation/MainContainer';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import CardDesign_bids_ViewDetails from '../modules/Auth/BottomNavigation/screens/Ride/Screens/CardDesign_bids_ViewDetails';
 
 
 
@@ -60,6 +62,10 @@ function PackagesStack() {
         headerTintColor: 'white',
         headerShadowVisible: false,
       }}>
+        <Stack.Screen name="CardDesign_bids_ViewDetails" component={CardDesign_bids_ViewDetails}
+                    options={{
+                        headerTitle: 'View details',
+                    }} />
       <Stack.Screen
         name='Packages' component={Packages}
         options={{
@@ -437,8 +443,58 @@ function ContactUsStack() {
     </Stack.Navigator>
   )
 }
-
-
+function getHeaderTitle(route) {
+  const routeName = getFocusedRouteNameFromRoute(route) ?? 'RatingScreen';
+  switch (routeName) {
+      case 'Ride':
+          return 'Home';
+      case 'Earning':
+          return 'My Earnings';
+      case 'Ratings':
+          return 'Ratings';
+  }
+}
+// Bottem navigation
+function HomeNavigation(){
+  const Stack = createNativeStackNavigator();
+  const navigation = useNavigation();
+  return(
+    <Stack.Navigator screenOptions={{
+      headerStyle: {
+          backgroundColor: '#4448FF',
+      },
+      headerTitleStyle: {
+          fontSize: 18,
+      },
+      headerTitleAlign: 'center',
+      headerTintColor: 'white',
+      headerShadowVisible: false,
+  }}>
+    <Stack.Screen
+                    name='Ride Request' component={MainContainer}
+                    options={({ route }) => ({
+                        headerTitle: getHeaderTitle(route),
+                        headerLeft: () => (
+                            <View style={{ marginLeft: 5, }}>
+                                <TouchableOpacity style={{ padding: 10, marginTop: 5, borderWidth: 2, borderRadius: 60, borderColor: 'white' }}
+                                    onPress={() => navigation.openDrawer()}>
+                                    <Image source={require('../assets/MenuButtonIcon1.png')}
+                                        style={{ height: 15, width: 15, borderColor: 'white' }} />
+                                </TouchableOpacity>
+                            </View>
+                        ),
+                        headerRight: () => (
+                            <View style={{ marginRight: 5, }} >
+                                <TouchableOpacity style={{ marginTop: 5 }} onPress={() => navigation.navigate('Notification')}>
+                                    <Image source={require('../modules/Auth/BottomNavigation/Images/NotificationBell.png')}
+                                        style={{ height: 24, width: 24 }} />
+                                </TouchableOpacity>
+                            </View>
+                        ),
+                    })} />
+                    </Stack.Navigator>
+  )
+}
 
 
 // function PackagesStack(){
@@ -457,13 +513,13 @@ export const MainNavigator = () => {
   const navigation = useNavigation();
   return (
     <React.Fragment>
-      <Drawer.Navigator initialRouteName="NavigationToScreens" drawerContent={props => <CustomDrawer {...props} />}
+      <Drawer.Navigator initialRouteName="HomeNavigation" drawerContent={props => <CustomDrawer {...props} />}
         screenOptions={{
           headerShown: false, drawerActiveTintColor: '#007BFE',
           drawerLabelStyle: { marginLeft: -10, color: '#5A5A5A', fontFamily: 'Montserrat_500Medium', fontSize: 16 }
         }}>
 
-        <Drawer.Screen name="Home" component={NavigationToScreens}
+        <Drawer.Screen name="Home" component={HomeNavigation}
           options={{
             drawerIcon: () => (
               <Image source={require('../modules/Auth/SideNavigation/Images/Icons/Home.png')} />
