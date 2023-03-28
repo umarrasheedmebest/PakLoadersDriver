@@ -6,7 +6,8 @@ const bids = createSlice({
     //Create bids
     getAllBidsRequest: false,
     getAllBidsResponse: [],
-   
+    bidCreateRequest:false,
+    bidCreateResponse:[]   
   },
 
   reducers: {
@@ -19,11 +20,23 @@ const bids = createSlice({
         getAllBidsResponse: {$set: action.payload},
         getAllBidsRequest: {$set: false},
       }),
+      bidCreateRequest: (state, action) =>
+      update(state, {
+        
+        bidCreateRequest: {$set: true},
+      }),
+      bidCreateResponse: (state, action) =>
+      update(state, {
+        bidCreateResponse: {$set: action.payload},
+        bidCreateRequest: {$set: false},
+      }),
   
   },
 });
 export const {
   getAllBidsRequest,
   getAllBidsResponse,
+  bidCreateRequest,
+  bidCreateResponse
 } = bids.actions;
 export const bidsReducer = bids.reducer;

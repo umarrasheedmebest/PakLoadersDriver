@@ -5,7 +5,7 @@ import {
   handleGetUserLoginOtp,
   handleGetUserVarifyOtp,
 } from './Saga/AuthSaga';
-import { getAllBidsRequestSaga } from './Saga/BidsSaga';
+import { bidCreateRequestSaga, getAllBidsRequestSaga } from './Saga/BidsSaga';
 import {
   getAllPostRequestSaga,
   singlePostRequestSaga,
@@ -20,7 +20,7 @@ import {
   signinOtpVerifyRequest,
   signinRequest,
 } from './slices/AuthSlice';
-import { getAllBidsRequest } from './slices/BidsSlice';
+import { bidCreateRequest, getAllBidsRequest } from './slices/BidsSlice';
 import {
   createPostRequest,
   getAllPostRequest,
@@ -47,5 +47,5 @@ export function* watcherSaga() {
   yield takeLatest(updateUserImageRequest.type,updateUserImageRequestSaga);
   // Bids
   yield takeLatest(getAllBidsRequest.type, getAllBidsRequestSaga);
-
+  yield takeLatest(bidCreateRequest.type,bidCreateRequestSaga);
 }

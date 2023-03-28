@@ -28,3 +28,27 @@ export const requestGetBids=async()=> {
 
   return res;
 }
+// Bids Create
+export const requestBidsCreate=async(data)=> {
+  const {bid_amount,post_id}=data;
+  
+  console.log(data)
+  const {id,userinfoToken}=await getUserToken();
+    console.log("This is userToken", id,userinfoToken)
+  const bidData={
+    "driver_id":id,
+    post_id,
+    bid_amount
+  }
+  const res = axios.request({
+    method: 'post',
+    url: `${BASE_URL}bids/create`,
+    data:bidData,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization':userinfoToken
+    },
+  });
+
+  return res;
+}

@@ -2,10 +2,13 @@ import React, { Component } from "react";
 import { TouchableOpacity, ImageBackground, Image, Text, View, Dimensions } from "react-native";
 const { height, width } = Dimensions.get('window');
 import { useNavigation, DrawerActions } from '@react-navigation/native';
+import { useSelector } from "react-redux";
+import { BASE_URL } from "../../../../../Redux/constent/constent";
 //import MyProfile from "../../../MyProfile/MyProfile";
 
 const UpperDesignCode = () => {
     // Top Design
+    const userData= useSelector((state)=>state.user.getUserResponse);
     const navigation = useNavigation();
     return (
         <View>
@@ -32,13 +35,17 @@ const UpperDesignCode = () => {
                         </View>
                     </View>
                     {/*Profile Icon*/}
-
-                    <Image source={require('../../Images/BackSpace_Language/Person.png')} style={{ width: 68, height: 68, marginLeft: 23 }} />
+                    {userData.map((item)=>{
+                      return  <View key={item.number}>
+                         <Image source={item.driver_image?{uri:`${BASE_URL}images/${item.driver_image}`}:require('../../Images/BackSpace_Language/Person.png')} style={{ width: 68, height: 68, marginLeft: 23 }} />
 
                     {/*Ali Khan*/}
-                    <Text style={{ fontSize: 20, marginLeft: 23, color: 'white', marginTop: 5, fontWeight: "bold" }}>Ali khan</Text>
+                    <Text style={{ fontSize: 20, marginLeft: 23, color: 'white', marginTop: 5, fontWeight: "bold" }}>{item.full_name}</Text>
                     {/*Number*/}
-                    <Text style={{ fontSize: 20, marginLeft: 23, color: 'white', marginBottom: 10 }}>+92303 2374827</Text>
+                    <Text style={{ fontSize: 20, marginLeft: 23, color: 'white', marginBottom: 10 }}>{item.number}</Text>
+                    </View>
+                    })}
+                   
                 </View>
             </ImageBackground>
         </View>

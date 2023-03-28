@@ -69,7 +69,7 @@ export default function CardDesign_bids(props) {
         <View style={{flexDirection: 'row', alignSelf: 'flex-start'}}>
           <TouchableOpacity
             onPress={() => {
-                navigation.navigate("CardDesign_bids")
+                navigation.navigate("CardDesign_bids_ViewDetails")
               dispactch(singlePostRequest(props.postId))
                }}>
             <Text

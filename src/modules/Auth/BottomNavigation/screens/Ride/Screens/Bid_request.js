@@ -6,6 +6,9 @@ const { height, width } = Dimensions.get('window');
 import { useNavigation } from '@react-navigation/native';
 
 import CardDesign_bids from './CardDesign_bids';
+import { useDispatch, useSelector } from 'react-redux';
+import { bidCreateRequest } from '../../../../../../Redux/slices/BidsSlice';
+
 
 
 
@@ -14,10 +17,15 @@ export default function Bid_request() {
   const [modalVisible, setModalVisible] = useState(true);
   const [modalVisible2, setModalVisible2] = useState(true);
   const [checked, setChecked] = React.useState('first');
-
+  const [inputValue, setInputValue] = useState('')
   const navigation = useNavigation();
-
-
+const postId=useSelector((state)=>state.post.getAllPostResponse[0].post_id)
+console.log("Check Post Id",postId)
+const data={
+  "post_id":postId,
+  "bid_amount":inputValue
+};
+const dispatch=useDispatch();
 
   const ModelBoxDesign = () => {
     return (
@@ -222,6 +230,8 @@ export default function Bid_request() {
                         <TextInput placeholder='Rs. 300' style={{ padding: 10 }} 
                           maxLength = {6}
                           keyboardType = 'numeric'
+                          value={inputValue}
+                          onChangeText={(item)=>setInputValue(item)}
                         />
                       </View>
                     </View>
@@ -242,7 +252,9 @@ export default function Bid_request() {
                   }}>Close</Text>
                 </TouchableOpacity>
                 {/* Place bid Button  */}
-                <TouchableOpacity onPress={() => setModalVisible(false)} onPressIn={() => setModalVisible2(true)} >
+                <TouchableOpacity onPress={() => {
+                  dispatch(bidCreateRequest(data))
+                  setModalVisible(false)}} onPressIn={() => setModalVisible2(true)} >
                   <Text style={{
                     fontSize: 14, paddingVertical: 10, paddingHorizontal: 40,
                     color: 'white', borderWidth: 1, borderColor: '#4448FF', backgroundColor: '#4448FF',

@@ -7,14 +7,16 @@ import { AuthContext } from '../../AuthProvider';
 import { ActivityIndicator, SafeAreaView } from 'react-native';
 import { requestUserPermission,notificationListener } from '../modules/Components/NotificationService/NotificationService';
 import NavigationToScreens from './AuthNavigator';
-
+import { useDispatch } from 'react-redux';
+import { getUserRequest } from '../Redux/slices/UserSlice';
 const AppNavigator = () => {
+    const dispactch=useDispatch();
     const { userToken, login,isLoading,setisLoading } = useContext(AuthContext);
     console.log("userToken"+userToken)
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-       
+        dispactch(getUserRequest())
         requestUserPermission()
         notificationListener()
     }, []);

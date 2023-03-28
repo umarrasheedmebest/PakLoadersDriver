@@ -29,7 +29,7 @@ export const requestgetUser=async()=> {
   console.log( "Get User Data id",id);
   const res = axios.request({
     method: 'get',
-    url: `${BASE_URL}user/get/${id}`,
+    url: `${BASE_URL}driver/get/${id}`,
     headers: {
       'Content-Type': 'application/json',
       'Authorization':userinfoToken
@@ -43,7 +43,7 @@ export const requestupdateUser= async(data)=> {
    console.log("User Name update",id)
   const res = axios.request({
     method: 'put',
-    url: `${BASE_URL}user/update/${id}`,
+    url: `${BASE_URL}driver/update/${id}`,
     data,
     headers: {
       'Content-Type': 'application/json',
@@ -55,11 +55,12 @@ export const requestupdateUser= async(data)=> {
 }
 // update User Image
 export const requestUpdateUserImage =async (userImage)=> {
+  console.log(userImage);
   const {id,userinfoToken}=await getUserToken();
   console.log("Image Update user Id",id);
   const res = axios.request({
     method: 'put',
-    url: `${BASE_URL}images/upload/${id}`,
+    url: `${BASE_URL}driver/basic-info/${id}`,
     data:userImage,
     headers: {
         'Content-Type': 'multipart/form-data;',
