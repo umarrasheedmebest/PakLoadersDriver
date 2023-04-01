@@ -9,6 +9,8 @@ const VerifiedServiceComponent = ({
     const [carouselItems, setCarouselItems] = useState([]);
     const userInfo=useSelector((state)=>state.auth.signInOtpVarifyResponse)
   const userTokenSuc=useSelector((state)=>state.auth.signInOtpVarifyResponse.accessToken)
+  const signInOtpVarifyRequest=useSelector((state)=>state.auth.signInOtpVarifyRequest)
+
   console.log('OTP Data')
   console.log(userInfo)
   console.log(userTokenSuc)
@@ -31,7 +33,8 @@ const VerifiedServiceComponent = ({
         navigateToHome,
         carouselItems,
         activeIndex,
-        setActiveIndex
+        setActiveIndex,
+        signInOtpVarifyRequest
     });
 };
 
