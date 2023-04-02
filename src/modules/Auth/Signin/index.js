@@ -20,13 +20,31 @@ const windowHeight = Dimensions.get('window').height;
 
 const SigninComponent = ({ navigation, }) => {
     const dispatch=useDispatch();
-
+    const signinRequestData = useSelector(state => state.auth.signInResponse);
+    const validNumber=typeof signinRequestData =='string';
+    console.log(validNumber)
     const [showPassword, setShowPassword] = React.useState(false);
     const [visiblePassword, setVisiblePassword] = React.useState(true);
     const [modalVisible, setModalVisible] = useState(true)
     const [number, setNumber] = useState('')
+   const [errors, setErrors] = useState('')
+    const ValidationNumber=(number)=>{
+        if(!number && number==''){
+            setErrors("Please Enter the Mobile ")
+        }else {
+            setErrors('')
+            LoginFun(number)
+            
+        }
+       
+        
+            
+        
+    }
+    
     const LoginFun = (item) => {
         console.log(item)
+        
         const number={"number":item}
         dispatch(
             signinRequest(number)
@@ -60,12 +78,14 @@ const SigninComponent = ({ navigation, }) => {
                                 }}> Mobile Number</Text>
                                 <View style={{ borderWidth: 1, borderColor: 'black', borderRadius: 5, paddingHorizontal: 5, }}>
                                     <TextInput placeholder='+9230012345678' style={{ padding: 15 }}
-                                        maxLength={15}
+                                        maxLength={13}
                                         keyboardType='email-address'
                                         value={number}
                                         onChangeText={(text)=>setNumber(text)}
                                     />
+                                    
                                 </View>
+                                <Text style={{marginTop:5,color:'red'}}>{errors}</Text>
                             </View>
 
 
@@ -111,7 +131,7 @@ const SigninComponent = ({ navigation, }) => {
                             </TouchableOpacity> */}
 
                             {/* Sign in Button */}
-                            <TouchableOpacity onPress={()=>LoginFun(number)} style={{ alignSelf: "center", marginTop: 25 }}
+                            <TouchableOpacity onPress={()=>ValidationNumber(number)} style={{ alignSelf: "center", marginTop: 25 }}
                             >
                                 <Text style={{
                                     fontSize: 14, paddingVertical: 10, paddingHorizontal: 40,
