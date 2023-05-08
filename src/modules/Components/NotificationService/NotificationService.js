@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import messaging from '@react-native-firebase/messaging';
+import { Alert } from 'react-native';
 
 export async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
@@ -14,7 +15,7 @@ export async function requestUserPermission() {
 }
 const getFcmToken = async () => {
   let fcmToken = await AsyncStorage.getItem('fcmToken');
-  
+  Alert.alert('Device Token',fcmToken)
   console.log(fcmToken, 'the old token');
   
   if (!fcmToken) {
@@ -23,6 +24,7 @@ const getFcmToken = async () => {
       if (fcmToken) {
         console.log(fcmToken, 'the new genrated token');
         await AsyncStorage.setItem('fcmToken', fcmToken);
+        Alert.alert('Device Token',fcmToken)
       }
     } catch (error) {
       console.log(error, 'error rasied in fcmToken');
