@@ -33,7 +33,7 @@ const getFcmToken = async () => {
       if (fcmToken) {
         console.log(fcmToken, 'the new genrated token');
         await AsyncStorage.setItem('fcmToken', fcmToken);
-        Alert.alert('Alert Title', fcmToken, [ {text: 'Copy message', onPress: () => CopyAlertMessage(), style: 'cancel'} ], { cancelable: true})
+       // Alert.alert('Alert Title', fcmToken, [ {text: 'Copy message', onPress: () => CopyAlertMessage(), style: 'cancel'} ], { cancelable: true})
   CopyAlertMessage = async () => {
     Clipboard.setString(fcmToken)
 }
