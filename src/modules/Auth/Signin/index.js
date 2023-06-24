@@ -29,11 +29,16 @@ const SigninComponent = ({ navigation, }) => {
     const [number, setNumber] = useState('')
    const [errors, setErrors] = useState('')
     const ValidationNumber=(number)=>{
-        if(!number && number==''){
+        if(!number && number==''){ 
             setErrors("Please Enter the Mobile ")
         }else {
             setErrors('')
-            LoginFun(number)
+            
+            let space= number.trim();
+            let part = space.slice(1,11);
+            let newText = space.replace(space, "+92"+part);
+            console.log("new String"+newText)
+            LoginFun(newText)
             
         }
        
@@ -65,7 +70,7 @@ const SigninComponent = ({ navigation, }) => {
                     marginHorizontal: 20, marginBottom: 30, borderRadius: 10, elevation: 3,
 
                 }}>
-                    <ScrollView>
+                    <ScrollView keyboardShouldPersistTaps={'handled'}>
                         <View style={{ marginVertical: 35, marginHorizontal: 15 }}>
                             {/* sign in image "locker" */}
                             <Image source={require('../../../assets/signin.png',)} style={{ height: 125, width: 125, alignSelf: "center" }} />
@@ -77,9 +82,9 @@ const SigninComponent = ({ navigation, }) => {
                                     position: 'absolute', left: 15, zIndex: 100, backgroundColor: 'white',
                                 }}> Mobile Number</Text>
                                 <View style={{ borderWidth: 1, borderColor: 'black', borderRadius: 5, paddingHorizontal: 5, }}>
-                                    <TextInput placeholder='+9230012345678' style={{ padding: 15 }}
-                                        maxLength={13}
-                                        keyboardType='email-address'
+                                    <TextInput placeholder='030012345678' style={{ padding: 15 }}
+                                        maxLength={11}
+                                        keyboardType='numeric'
                                         value={number}
                                         onChangeText={(text)=>setNumber(text)}
                                     />
@@ -88,7 +93,7 @@ const SigninComponent = ({ navigation, }) => {
                                 <Text style={{marginTop:5,color:'red'}}>{errors}</Text>
                             </View>
 
-
+                                {/* Add New comment */}
                             {/*  Password */}
                             {/* <View style={{ paddingTop: 10, marginTop: 10 }}>
                                 <Text style={{
