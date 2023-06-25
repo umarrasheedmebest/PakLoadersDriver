@@ -7,6 +7,7 @@ import {
     Dimensions,
     Image,
     TextInput,
+    Keyboard
 
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,7 +39,12 @@ const SigninComponent = ({ navigation, }) => {
             let part = space.slice(1,11);
             let newText = space.replace(space, "+92"+part);
             console.log("new String"+newText)
-            LoginFun(newText)
+            if(newText.length==13){
+                LoginFun(newText)
+            }else{
+                setErrors("Your Number is invalid")
+            }
+            
             
         }
        
@@ -87,6 +93,7 @@ const SigninComponent = ({ navigation, }) => {
                                         keyboardType='numeric'
                                         value={number}
                                         onChangeText={(text)=>setNumber(text)}
+                                        
                                     />
                                     
                                 </View>
@@ -136,7 +143,9 @@ const SigninComponent = ({ navigation, }) => {
                             </TouchableOpacity> */}
 
                             {/* Sign in Button */}
-                            <TouchableOpacity onPress={()=>ValidationNumber(number)} style={{ alignSelf: "center", marginTop: 25 }}
+                            <TouchableOpacity onPress={()=>{ValidationNumber(number)
+                        Keyboard.dismiss();  
+                        }} style={{ alignSelf: "center", marginTop: 25 }}
                             >
                                 <Text style={{
                                     fontSize: 14, paddingVertical: 10, paddingHorizontal: 40,
