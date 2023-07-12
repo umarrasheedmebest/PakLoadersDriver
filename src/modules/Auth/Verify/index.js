@@ -49,7 +49,7 @@ const verifycomponent = ({navigation}) => {
     let fcmToken = await AsyncStorage.getItem('fcmToken');
     return fcmToken;
   };
-  const navigateVerified = item => {
+  const navigateVerified = async item => {
     console.log(item);
 
     if (tokens == item) {
@@ -57,8 +57,8 @@ const verifycomponent = ({navigation}) => {
         signinOtpVerifyRequest({
           number: UserNumber,
           secret: secret,
-          token: token,
-          deviceToken: getDeviceToken(),
+          token: tokens,
+          deviceToken: await getDeviceToken(),
         }),
       );
       navigation.navigate('Verified');
